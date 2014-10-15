@@ -1,0 +1,37 @@
+{
+  "name": "koa-parameter",
+  "version": "1.0.0",
+  "description": "parameter validate middleware for koa",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+
+  ],
+  "author": {
+    "name": "dead-horse",
+    "email": "dead_horse@qq.com",
+    "url": "http://deadhorse.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:koajs/parameter"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "parameter": "~0.0.7"
+  },
+  "devDependencies": {
+    "autod": "1",
+    "istanbul-harmony": "~0.3.0",
+    "koa": "~0.12.2",
+    "koa-bodyparser": "~1.0.1",
+    "mocha": "~1.21.5",
+    "should": "~4.0.4",
+    "supertest": "~0.14.0"
+  },
+  "engine": {
+    "node": ">=0.10"
+  }
+}
