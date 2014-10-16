@@ -47,7 +47,7 @@ app.use(function* () {
 
 Checkout [parameter](https://github.com/node-modules/parameter) to get all the rules.
 
-## [Example](example/index.js).
+## [Example](example/index.js)
 
 ### License
 
