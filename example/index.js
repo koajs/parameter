@@ -21,8 +21,8 @@ app.use(parameter(app));
 
 app.use(function* () {
   this.verifyParams({
-    id: {isId: true},
-    date: {isDate: true}
+    id: 'id',
+    date: 'date'
   });
   this.body = 'passed';
 });
