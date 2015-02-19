@@ -10,7 +10,7 @@
  * Module dependencies.
  */
 
-var parameter = require('parameter');
+var validate = require('parameter');
 
 module.exports = function (app) {
   app.context.verifyParams = function(rules, params) {
@@ -27,7 +27,7 @@ module.exports = function (app) {
       params = merge(params);
       params = merge(this.params, params);
     }
-    var errors = parameter.verify(params, rules);
+    var errors = validate(rules, params);
     if (!errors) {
       return;
     }

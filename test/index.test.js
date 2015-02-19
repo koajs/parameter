@@ -21,7 +21,7 @@ describe('koa-paramter', function () {
     app.use(parameter(app));
     app.use(function* () {
       this.verifyParams({
-        id: {isId: true},
+        id: 'id',
         name: 'string'
       });
       this.body = 'passed';
@@ -38,7 +38,7 @@ describe('koa-paramter', function () {
     app.use(parameter(app));
     app.use(function* () {
       this.verifyParams({
-        id: {isId: true},
+        id: 'id',
         name: 'string'
       });
       this.body = 'passed';
@@ -50,9 +50,8 @@ describe('koa-paramter', function () {
     .expect({
       message: 'Validation Failed',
       errors: [{
-        resource: 'Param',
         field: 'id',
-        message: 'should be digital string',
+        message: 'id should match /^\\d+$/',
         code: 'invalid'
       }],
       params: { id: 'x', name: 'foo' }
@@ -65,7 +64,7 @@ describe('koa-paramter', function () {
     app.use(parameter(app));
     app.use(function* () {
       this.verifyParams({
-        id: {isId: true},
+        id: 'id',
         name: 'string'
       });
       this.body = 'passed';
@@ -87,7 +86,7 @@ describe('koa-paramter', function () {
     app.use(parameter(app));
     app.use(function* () {
       this.verifyParams({
-        id: {isId: true},
+        id: 'id',
         name: 'string'
       });
       this.body = 'passed';
@@ -103,9 +102,8 @@ describe('koa-paramter', function () {
     .expect({
       message: 'Validation Failed',
       errors: [{
-        resource: 'Param',
         field: 'id',
-        message: 'should be digital string',
+        message: 'id should match /^\\d+$/',
         code: 'invalid'
       }],
       params: { id: 'xx', name: 'foo' }
@@ -118,7 +116,7 @@ describe('koa-paramter', function () {
     app.use(parameter(app));
     app.use(function* () {
       this.verifyParams({
-        id: {isId: true},
+        id: 'id',
         name: 'string'
       });
       this.body = 'passed';
@@ -159,7 +157,7 @@ describe('koa-paramter', function () {
     parameter(app);
     app.use(function* () {
       this.verifyParams({
-        id: {isId: true},
+        id: 'id',
         name: 'string'
       });
       this.body = 'passed';
@@ -180,7 +178,7 @@ describe('koa-paramter', function () {
         name: 'foo'
       };
       var rule = {
-        id: {isId: true},
+        id: 'id',
         name: 'string'
       };
 
