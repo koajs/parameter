@@ -12,7 +12,10 @@
 
 var validate = require('parameter');
 
-module.exports = function (app) {
+module.exports = function (app, translate) {
+  if (typeof translate === 'function') {
+    validate.translate = translate;
+  }
   app.context.verifyParams = function(rules, params) {
     if (!rules) {
       return;
