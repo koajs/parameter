@@ -47,6 +47,28 @@ app.use(function* () {
 
 Checkout [parameter](https://github.com/node-modules/parameter) to get all the rules.
 
+## Translate 
+
+You can override the translate method of parameter to implement I18n, by passing a function like this :
+
+```js
+var koa = require('koa');
+var parameter = require('koa-parameter');
+
+parameter(app, function() {
+  // Same example with node-parameter
+  var args = Array.prototype.slice.call(arguments);
+  // Assume there have I18n.t method for convert language.
+  return I18n.t.apply(I18n, args);
+});
+
+app.use(function* () {
+  this.verifyParams({
+    name: 'string'
+  });
+});
+```
+
 ## [Example](example/index.js)
 
 ### License
