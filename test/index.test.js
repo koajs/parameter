@@ -10,6 +10,7 @@
  * Module dependencies.
  */
 
+var util = require('util');
 var bodyparser = require('koa-bodyparser');
 var request = require('supertest');
 var parameter = require('..');
@@ -190,5 +191,38 @@ describe('koa-paramter', function () {
     .get('/')
     .expect(422)
     .expect('Validation Failed', done);
+  });
+
+  it('should translate error message', function (done) {
+    var app = koa();
+    app.use(parameter(app, function() {
+      var args = Array.prototype.slice.call(arguments);
+      args[0] = args[0].replace('should match %s', 'doit correspondre à %s');
+      return util.format.apply(util, args);
+    }));
+    app.use(function* () {
+      var params = {
+        id: 'hi im not an id',
+      };
+      var rule = {
+        id: 'id'
+      };
+
+      this.verifyParams(rule, params);
+      this.body = 'passed';
+    });
+
+    request(app.listen())
+    .get('/')
+    .expect(422)
+    .expect({
+      message: 'Validation Failed',
+      errors: [{
+        field: 'id',
+        message: 'id doit correspondre à /^\\d+$/',
+        code: 'invalid'
+      }],
+      params: { id: 'hi im not an id' }
+    }, done);
   });
 });
