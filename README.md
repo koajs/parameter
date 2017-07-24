@@ -32,14 +32,16 @@ $ npm install koa-parameter --save
 ## Usage
 
 ```js
-var koa = require('koa');
-var parameter = require('koa-parameter');
+const Koa = require('koa');
+const parameter = require('koa-parameter');
+
+const app = new Koa();
 
 parameter(app); // add verifyParams method, but don't add middleware to catch the error
 // app.use(parameter(app)); // also add a middleware to catch the error.
 
-app.use(function* () {
-  this.verifyParams({
+app.use(async function (ctx) {
+  ctx.verifyParams({
     name: 'string'
   });
 });
@@ -47,13 +49,15 @@ app.use(function* () {
 
 Checkout [parameter](https://github.com/node-modules/parameter) to get all the rules.
 
-## Translate 
+## Translate
 
 You can override the translate method of parameter to implement I18n, by passing a function like this :
 
 ```js
-var koa = require('koa');
-var parameter = require('koa-parameter');
+const Koa = require('koa');
+const parameter = require('koa-parameter');
+
+const app = new Koa();
 
 parameter(app, function() {
   // Same example with node-parameter
@@ -62,8 +66,8 @@ parameter(app, function() {
   return I18n.t.apply(I18n, args);
 });
 
-app.use(function* () {
-  this.verifyParams({
+app.use(async function (ctx) {
+  ctx.verifyParams({
     name: 'string'
   });
 });

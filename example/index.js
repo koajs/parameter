@@ -10,21 +10,21 @@
  * Module dependencies.
  */
 
-var bodyparser = require('koa-bodyparser');
-var parameter = require('..');
-var koa = require('koa');
+const bodyparser = require('koa-bodyparser');
+const parameter = require('..');
+const Koa = require('koa');
 
-var app = koa();
+const app = new Koa();
 
 app.use(bodyparser());
 app.use(parameter(app));
 
-app.use(function* () {
-  this.verifyParams({
+app.use(async function (ctx) {
+  ctx.verifyParams({
     id: 'id',
     date: 'date'
   });
-  this.body = 'passed';
+  ctx.body = 'passed';
 });
 
 app.listen(3000);

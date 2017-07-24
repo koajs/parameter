@@ -7,7 +7,7 @@ install:
 	@npm install --registry=http://registry.npm.taobao.org
 
 test:
-	@NODE_ENV=test ./node_modules/mocha/bin/mocha --harmony\
+	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(REPORTER) \
 		--timeout $(TIMEOUT) \
 		--require should \
@@ -15,8 +15,7 @@ test:
 		$(TESTS)
 
 test-cov:
-	@NODE_ENV=test node --harmony \
-		node_modules/.bin/istanbul cover \
+	@NODE_ENV=test node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		-- -u exports \
 		--require should \
@@ -24,8 +23,7 @@ test-cov:
 		--bail
 
 test-travis:
-	@NODE_ENV=test node --harmony \
-		node_modules/.bin/istanbul cover \
+	@NODE_ENV=test node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		--report lcovonly \
 		-- -u exports \
