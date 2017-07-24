@@ -10,12 +10,19 @@
  * Module dependencies.
  */
 
-var validate = require('parameter');
+const Parameter = require('parameter');
 
 module.exports = function (app, translate) {
+  let parameter;
+
   if (typeof translate === 'function') {
-    validate.translate = translate;
+    parameter = new Parameter({
+      translate
+    })
+  } else {
+    parameter = new Parameter()
   }
+
   app.context.verifyParams = function(rules, params) {
     if (!rules) {
       return;
@@ -27,10 +34,9 @@ module.exports = function (app, translate) {
         : this.query;
 
       // copy
-      params = merge(params);
-      params = merge(this.params, params);
+      params = Object.assign({}, params, this.params);
     }
-    var errors = validate(rules, params);
+    const errors = parameter.validate(rules, params);
     if (!errors) {
       return;
     }
@@ -41,13 +47,13 @@ module.exports = function (app, translate) {
     });
   };
 
-  return function* verifyParam(next) {
+  return async function verifyParam(ctx, next) {
     try {
-      yield* next;
+      await next();
     } catch (err) {
       if (err.code === 'INVALID_PARAM') {
-        this.status = 422;
-        this.body = {
+        ctx.status = 422;
+        ctx.body = {
           message: err.message,
           errors: err.errors,
           params: err.params
@@ -58,12 +64,3 @@ module.exports = function (app, translate) {
     }
   };
 };
-
-
-function merge(source, target) {
-  target = target || {};
-  for (var key in source) {
-    target[key] = source[key];
-  }
-  return target;
-}

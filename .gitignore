@@ -10,6 +10,7 @@ coverage.html
 coverage/
 cov/
 
+package-lock.json
 node_modules
 
 dump.rdb

@@ -10,22 +10,22 @@
  * Module dependencies.
  */
 
-var util = require('util');
-var bodyparser = require('koa-bodyparser');
-var request = require('supertest');
-var parameter = require('..');
-var koa = require('koa');
+const util = require('util');
+const bodyparser = require('koa-bodyparser');
+const request = require('supertest');
+const parameter = require('..');
+const Koa = require('koa');
 
 describe('koa-paramter', function () {
   it('should verify query ok', function (done) {
-    var app = koa();
+    const app = new Koa();
     app.use(parameter(app));
-    app.use(function* () {
-      this.verifyParams({
+    app.use(async function (ctx) {
+      ctx.verifyParams({
         id: 'id',
         name: 'string'
       });
-      this.body = 'passed';
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -35,14 +35,14 @@ describe('koa-paramter', function () {
   });
 
   it('should verify query error', function (done) {
-    var app = koa();
+    const app = new Koa();
     app.use(parameter(app));
-    app.use(function* () {
-      this.verifyParams({
+    app.use(async function (ctx) {
+      ctx.verifyParams({
         id: 'id',
         name: 'string'
       });
-      this.body = 'passed';
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -52,7 +52,7 @@ describe('koa-paramter', function () {
       message: 'Validation Failed',
       errors: [{
         field: 'id',
-        message: 'id should match /^\\d+$/',
+        message: 'should match /^\\d+$/',
         code: 'invalid'
       }],
       params: { id: 'x', name: 'foo' }
@@ -60,15 +60,15 @@ describe('koa-paramter', function () {
   });
 
   it('should verify body ok', function (done) {
-    var app = koa();
+    const app = new Koa();
     app.use(bodyparser());
     app.use(parameter(app));
-    app.use(function* () {
-      this.verifyParams({
+    app.use(async function (ctx) {
+      ctx.verifyParams({
         id: 'id',
         name: 'string'
       });
-      this.body = 'passed';
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -82,15 +82,15 @@ describe('koa-paramter', function () {
   });
 
   it('should verify body error', function (done) {
-    var app = koa();
+    const app = new Koa();
     app.use(bodyparser());
     app.use(parameter(app));
-    app.use(function* () {
-      this.verifyParams({
+    app.use(async function (ctx) {
+      ctx.verifyParams({
         id: 'id',
         name: 'string'
       });
-      this.body = 'passed';
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -104,7 +104,7 @@ describe('koa-paramter', function () {
       message: 'Validation Failed',
       errors: [{
         field: 'id',
-        message: 'id should match /^\\d+$/',
+        message: 'should match /^\\d+$/',
         code: 'invalid'
       }],
       params: { id: 'xx', name: 'foo' }
@@ -112,16 +112,16 @@ describe('koa-paramter', function () {
   });
 
   it('should ignore other error', function (done) {
-    var app = koa();
+    const app = new Koa();
     app.use(bodyparser());
     app.use(parameter(app));
-    app.use(function* () {
-      this.verifyParams({
+    app.use(async function (ctx) {
+      ctx.verifyParams({
         id: 'id',
         name: 'string'
       });
-      this.body = 'passed';
-      this.throw('throw error');
+      ctx.body = 'passed';
+      ctx.throw('throw error');
     });
 
     request(app.listen())
@@ -135,12 +135,12 @@ describe('koa-paramter', function () {
   });
 
   it('should ignore without rule', function (done) {
-    var app = koa();
+    const app = new Koa();
     app.use(bodyparser());
     app.use(parameter(app));
-    app.use(function* () {
-      this.verifyParams();
-      this.body = 'passed';
+    app.use(async function (ctx) {
+      ctx.verifyParams();
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -154,14 +154,14 @@ describe('koa-paramter', function () {
   });
 
   it('should not add middleware', function (done) {
-    var app = koa();
+    const app = new Koa();
     parameter(app);
-    app.use(function* () {
-      this.verifyParams({
+    app.use(async function (ctx) {
+      ctx.verifyParams({
         id: 'id',
         name: 'string'
       });
-      this.body = 'passed';
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -171,20 +171,20 @@ describe('koa-paramter', function () {
   });
 
   it('should verify input params', function (done) {
-    var app = koa();
+    const app = new Koa();
     parameter(app);
-    app.use(function* () {
-      var params = {
+    app.use(async function (ctx) {
+      const params = {
         id: 'x',
         name: 'foo'
       };
-      var rule = {
+      const rule = {
         id: 'id',
         name: 'string'
       };
 
-      this.verifyParams(rule, params);
-      this.body = 'passed';
+      ctx.verifyParams(rule, params);
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -194,22 +194,22 @@ describe('koa-paramter', function () {
   });
 
   it('should translate error message', function (done) {
-    var app = koa();
+    const app = new Koa();
     app.use(parameter(app, function() {
       var args = Array.prototype.slice.call(arguments);
       args[0] = args[0].replace('should match %s', 'doit correspondre à %s');
       return util.format.apply(util, args);
     }));
-    app.use(function* () {
-      var params = {
+    app.use(async function (ctx) {
+      const params = {
         id: 'hi im not an id',
       };
-      var rule = {
+      const rule = {
         id: 'id'
       };
 
-      this.verifyParams(rule, params);
-      this.body = 'passed';
+      ctx.verifyParams(rule, params);
+      ctx.body = 'passed';
     });
 
     request(app.listen())
@@ -219,7 +219,7 @@ describe('koa-paramter', function () {
       message: 'Validation Failed',
       errors: [{
         field: 'id',
-        message: 'id doit correspondre à /^\\d+$/',
+        message: 'doit correspondre à /^\\d+$/',
         code: 'invalid'
       }],
       params: { id: 'hi im not an id' }
