@@ -1,6 +1,6 @@
 {
   "name": "koa-parameter",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "parameter validate middleware for koa",
   "main": "index.js",
   "scripts": {

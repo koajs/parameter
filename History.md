@@ -1,4 +1,10 @@
 
+3.0.1 / 2017-08-14
+==================
+
+**fixes**
+  * [[`66f2e44`](git@github.com:koajs/parameter/commit/66f2e44c7ea217520482d0f37597e6f69b297e80)] - fix: detect method to choose query or body (#11) (haoxin <<haoxins@outlook.com>>)
+
 3.0.0 / 2017-07-24 
 ==================
 
