@@ -19,6 +19,7 @@ const Koa = require('koa');
 describe('koa-paramter', function () {
   it('should verify query ok', function (done) {
     const app = new Koa();
+    app.use(bodyparser());
     app.use(parameter(app));
     app.use(async function (ctx) {
       ctx.verifyParams({
@@ -37,6 +38,7 @@ describe('koa-paramter', function () {
   it('should verify query error', function (done) {
     const app = new Koa();
     app.use(parameter(app));
+    app.use(bodyparser());
     app.use(async function (ctx) {
       ctx.verifyParams({
         id: 'id',
