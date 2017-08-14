@@ -29,9 +29,9 @@ module.exports = function (app, translate) {
     }
 
     if (!params) {
-      params = this.request.body
-        ? this.request.body
-        : this.query;
+      params = ['GET', 'HEAD'].includes(this.method.toUpperCase())
+        ? this.request.query
+        : this.request.body;
 
       // copy
       params = Object.assign({}, params, this.params);
